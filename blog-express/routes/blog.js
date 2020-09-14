@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+const { loginCheck } = require('../middleware/loginCheck')
 const { 
     getList, 
     getDetail, 
@@ -12,25 +13,31 @@ router.get('/list', function(req, res, next) {
     let author = req.query.author || ''
     const keyword = req.query.keyword || ''
     
-    // if (req.query.isadmin) {
-    //     const loginCheckResult = loginCheck(req)
-    //     if (loginCheckResult) {
-    //         return loginCheckResult
-    //     }
-
-    //     author = req.session.username
-    // }
+    if (req.query.isadmin) {
+        if (req.session.username == null) {
+            res.json(
+                new ErrorModel('Please login')
+            )
+            return
+        }
+        author = req.session.username
+    }
 
     const result = getList(author, keyword)
-    result.then(listData => {
-        res.json(new SuccessModel(listData))
+    return result.then(listData => {
+        res.json(
+            new SuccessModel(listData)
+        )
     })
 })
 
 router.get('/detail', function(req, res, next) {
-    res.json({
-        errno: 0,
-        data: 'OK'
+    const result = getDetail(req.query.id)
+
+    return result.then(detailData => {
+        res.json(
+            new SuccessModel(detailData)
+        )
     })
 })
 

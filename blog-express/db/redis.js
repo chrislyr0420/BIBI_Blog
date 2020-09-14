@@ -7,38 +7,4 @@ redisClient.on('error', err => {
     console.error(err)
 })
 
-function set(key, value) {
-    if (typeof value === 'object') {
-        value = JSON.stringify(value)
-    }
-    redisClient.set(key, value, redis.print)
-}
-
-function get(key) {
-    const promise = new Promise((resolve, reject) => {
-        redisClient.get(key, (err, val) => {
-            if (err) {
-                reject(err)
-                return
-            }
-            if (val == null) {
-                resolve(null)
-                return
-            }
-
-            try {
-                resolve(
-                    JSON.parse(val)
-                )
-            } catch (ex) {
-                resolve(val)
-            }
-        })
-    })
-    return promise
-}
-
-module.exports = {
-    get,
-    set
-}
+module.exports = redisClient
