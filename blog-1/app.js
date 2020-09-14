@@ -2,6 +2,7 @@ const handleUserRouter = require('./src/router/user')
 const handleBlogRouter = require('./src/router/blog')
 const querystring = require('querystring')
 const { get, set } = require('./src/db/redis')
+const { access, error, event } = require('./src/utils/log')
 
 // get cookie expire time
 const getCookieExpires = () => {
@@ -43,6 +44,10 @@ const getPostData = (req) => {
 }
 
 const serverHandle = (req, res) => {
+    // record access log
+    access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
+
+    // set result type to json
     res.setHeader('Content-type', 'application/json')
 
     req.path = req.url.split('?')[0]
