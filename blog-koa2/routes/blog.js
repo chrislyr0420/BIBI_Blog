@@ -34,8 +34,9 @@ router.get('/detail', async (ctx, next) => {
 
 router.post('/create', loginCheck, async (ctx, next) => {
     ctx.request.body.author = ctx.session.username
-    const createData = await newBlog(ctx.body)
+    const createData = await newBlog(ctx.request.body)
 
+    console.log("createData: ", createData)
     ctx.body = createData ? new SuccessModel(createData) : new ErrorModel("Error when create blog")
 })
 

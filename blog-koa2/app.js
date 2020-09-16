@@ -7,6 +7,9 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
+const morgan = require('koa-morgan')
+const path = require('path')
+const fs = require('fs')
 
 const REDIS_CONF = require('./conf/db')
 const index = require('./routes/index')
@@ -28,6 +31,23 @@ app.use(require('koa-static')(__dirname + '/public'))
 app.use(views(__dirname + '/views', {
   extension: 'pug'
 }))
+
+const ENV = process.env.NODE_ENV
+// we can find more format other than 'dev' in https://github.com/expressjs/morgan
+if (ENV !== 'production') {
+  // when it is devo or test environment
+  app.use(morgan('dev'));
+} else {
+  // when it is prod environment
+  const logFileName = path.join(__dirname, 'logs', 'access.log')
+  const writeStream = fs.createWriteStream(logFileName, {
+    flags: 'a'
+  })
+
+  app.use(morgan('combined', {
+    stream: writeStream
+  }));
+}
 
 // logger
 app.use(async (ctx, next) => {
