@@ -8,7 +8,7 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
-
+const REDIS_CONF = require('./conf/db')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const user = require('./routes/user')
@@ -47,7 +47,7 @@ app.use(session({
 
   // redis conf
   store: redisStore({
-    all: '127.0.0.1:6379' // temporarily hard code local redis
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
   })
 }))
 
