@@ -4,6 +4,7 @@ A web application to practice backend NodeJS. This app can serve most daily blog
 The purpose of this app is to practice NodeJS. I learned this from imooc lecture https://coding.imooc.com/class/320.html
 
 * This app currently contains a blog-1 which is a raw NodeJS app without using any fancy framework (Will learn and use Express and Koa2 later)
+[UPDATE] blog-express and blog-koa2 are two apps with frameworks
 
 * This app is not online right now. To reproduce this app locally you need to have some basic setups
 
