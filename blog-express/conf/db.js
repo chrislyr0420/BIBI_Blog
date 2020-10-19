@@ -5,9 +5,9 @@ let REDIS_CONF
 
 if (env === 'dev') {
     MYSQL_CONF = {
-        host: 'localhost',
-        user: 'root',
-        password: 'liyiran0420',
+        host: 'ads-db.ciwpg75rvkln.us-east-2.rds.amazonaws.com',
+        user: 'admin',
+        password: 'Liyiran0420!',
         port: '3306',
         database: 'myblog'
     }
@@ -18,13 +18,13 @@ if (env === 'dev') {
     }
 }
 
-if (env === 'production') {
+if (env === 'prod') {
     MYSQL_CONF = {
         host: 'ads-db.ciwpg75rvkln.us-east-2.rds.amazonaws.com',
         user: 'admin',
         password: 'Liyiran0420!',
         port: '3306',
-        database: 'ads_db'
+        database: 'myblog'
     }
     
     REDIS_CONF = {
